@@ -1,0 +1,125 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --outlineColor: rgb(232, 0, 111);
+  --cardBg: rgb(237, 238, 242);
+  --btnColor: rgb(253, 234, 241);
+}
+
+body {
+  font-family: sans-serif;
+  /* padding-top: 10px; */
+}
+
+.cta-buttton {
+  padding: 8px 14px;
+  border-radius: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--outlineColor);
+  border: 1px solid #fff;
+  background-color: var(--btnColor);
+}
+
+.cta-buttton:focus {
+  outline: 1px solid var(--outlineColor);
+}
+
+.cta-buttton:hover {
+  border: 1px solid rgb(241, 201, 218);
+  color: rgb(188, 0, 90);
+}
+/* Modal start */
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height: 100vh;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  border-radius: 20px;
+  width: 90vw;
+  background-color: #fff;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.modal_content {
+  width: 100%;
+  padding: 16px;
+}
+
+#modal__content--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+  padding: 16px 0px;
+}
+
+#modal__content--body {
+  display: grid;
+  padding: 5px 0;
+  grid-template-columns: 1;
+  grid-auto-rows: 56px;
+  row-gap: 15px;
+  overflow-y: auto;
+}
+
+.card {
+  display: flex;
+  background-color: var(--cardBg);
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--cardBg);
+  outline: none;
+  height: 58px;
+}
+
+.card:hover {
+  cursor: pointer;
+  border: 1px solid var(--outlineColor);
+}
+
+.card:focus {
+  border: 1px solid var(--outlineColor);
+}
+
+/* Modal close button */
+
+.close_modal {
+  cursor: pointer;
+  opacity: 0.5;
+  border: none;
+  padding: 4px;
+  transition: opacity 0.2s ease;
+  background: none;
+}
+
+.close_modal:hover {
+  opacity: 0.9;
+}
+.close_modal:focus {
+  outline: 1px solid var(--outlineColor);
+}
+
+/* Modal End  */
+
+/* media queries */
+
+@media screen and (min-width: 425px) {
+  .modal {
+    width: 420px;
+  }
+}
