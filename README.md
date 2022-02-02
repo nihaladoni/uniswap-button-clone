@@ -43,6 +43,19 @@
 <!-- ABOUT THE PROJECT -->
 
 
+# Application Usage
+
+### Wallet connect 👇
+
+![uniswapconnect](https://user-images.githubusercontent.com/61204519/152136362-e1d1ad14-7c3a-4c76-91f2-c40439b4283a.gif)
+
+### loading and errors UI 👇
+
+![uniswapLoad](https://user-images.githubusercontent.com/61204519/152135422-99140e67-8a11-4aa3-bba0-16a11f125878.gif)
+
+<hr/>
+
+
 ### 💻 Built with
 
 <ul>
