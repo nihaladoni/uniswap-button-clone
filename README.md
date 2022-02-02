@@ -31,7 +31,7 @@
   <br />
   <p>
 
-<a href="ffd">View Demo</a>
+<a href="https://cloneuniswap.netlify.app">View Demo</a>
 ·
 
 <a href="https://github.com/nihaladoni/uniswap-button-clone/issues">Report Bug</a>
