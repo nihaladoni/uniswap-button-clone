@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react";
-
-import MyModal from "./MyModal";
-
 import { useWeb3React } from "@web3-react/core";
+
+import MyModal from "./components/MyModal";
+
 import {
   injected,
   resetWalletConnector,
@@ -19,23 +19,37 @@ import {
   getErrorMessage,
   svgLoader,
 } from "./utils/helpers";
+import Backbutton from "./components/Backbutton";
 
 export default function App() {
-  const [loading, setLoading] = useState(false);
-
   const context = useWeb3React();
+
   const [walletError, setWalletError] = useState("");
-  const [currentWallet, setCurrentWallet] = useState([]);
+  const [currentWalletArr, setCurrentWalletArr] = useState([]);
+  const [connectedAccounts, setConnectedAccounts] = useState(() => new Set());
   const [walletBalance, setWalletBalance] = useState("");
+  const [showAllAccounts, setShowAllAccounts] = useState(true);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   const [isCopied, setIsCopied] = useState(false);
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
-  console.log(currentWallet);
+  //  Wallet conncection handlers
 
-  const connectWallet = async (myConnector) => {
+  const handleMetamask = async () => {
     try {
-      await context.activate(myConnector, undefined, true);
+      await context.activate(injected, undefined, true);
+      setConnectedAccounts((prev) => new Set(...prev).add("Metamask"));
+    } catch (error) {
+      setWalletError(getErrorMessage(error));
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleCoinBaseWallet = async () => {
+    try {
+      await context.activate(walletlink, undefined, true);
+      setConnectedAccounts((prev) => new Set(...prev).add("Coinbase"));
     } catch (error) {
       setWalletError(getErrorMessage(error));
     } finally {
@@ -43,27 +57,19 @@ export default function App() {
     }
   };
 
-  console.log(currentWallet);
-
-  //  Wallet handlers
-
-  const handleMetamask = () => connectWallet(injected);
-  const handleCoinBaseWallet = () => connectWallet(walletlink);
   // Package Issue while opening walletConnect Modal
   // https://github.com/NoahZinsmeister/web3-react/issues/124#issuecomment-984882534
 
   const handleWalletConnect = useCallback(async () => {
     try {
       await context.activate(walletconnect, undefined, true);
+      setConnectedAccounts((prev) => new Set(...prev).add("WalletConnect"));
     } catch (error) {
       setWalletError(getErrorMessage(error));
       resetWalletConnector(walletconnect);
-      // console.log(error);
     } finally {
       setLoading(false);
     }
-
-    // setLoading(false);
   }, [context.activate]);
 
   const dataSrc = [
@@ -94,8 +100,9 @@ export default function App() {
   function closeModal() {
     setIsOpen(false);
     setWalletError("");
-    setCurrentWallet("");
     setLoading(false);
+    setCurrentWalletArr([]);
+    setShowAllAccounts(true);
   }
 
   //  Helper Handlers
@@ -108,9 +115,12 @@ export default function App() {
       setIsCopied(false);
     }, 500);
   };
+  const handleBackButtonClick = () => {
+    setShowAllAccounts(true);
+  };
 
   const handleWalletChange = () => {
-    setCurrentWallet((currentWallet) => [...currentWallet, "all"]);
+    setShowAllAccounts(false);
   };
 
   if (context.active) {
@@ -136,9 +146,19 @@ export default function App() {
       <MyModal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
-        modalTitle={context.active ? "Account" : "Connect Wallet"}
+        modalTitle={
+          context.active ? (
+            showAllAccounts ? (
+              "Account"
+            ) : (
+              <Backbutton onClick={handleBackButtonClick} />
+            )
+          ) : (
+            "Connect Wallet"
+          )
+        }
       >
-        {/* Wallet Connect Error */}
+        {/* Wallet loading */}
         {loading && (
           <button className="card" disabled>
             <div>{svgLoader}</div>
@@ -152,9 +172,9 @@ export default function App() {
             <h3 style={{ color: "red" }}>{walletError}</h3>
           </button>
         )}
-        {/* Wallet Connected  */}
-        {currentWallet.length >= 1 &&
-          filterList(dataSrc, currentWallet[0]).map((d) => (
+        {/* Wallet select Initialization  */}
+        {currentWalletArr.length >= 1 &&
+          filterList(dataSrc, currentWalletArr[0]).map((d) => (
             <React.Fragment key={d.name}>
               {!context.active && (
                 <button
@@ -164,51 +184,49 @@ export default function App() {
                     if (!context.active && !context.error) {
                       setLoading(true);
                     }
-                    setCurrentWallet(d.name);
+                    setCurrentWalletArr(d.name);
                   }}
                 >
                   <h3>{d.name}</h3>
                   <img src={d.imgSrc} width="24px" height="24px" alt={d.name} />
                 </button>
               )}
-              {!!context.active && (
-                <section className="connect-container">
-                  <div className="connect-container--header">
-                    <p>Connected with {currentWallet[0]}</p>
-                    <button className="btn" onClick={handleWalletChange}>
-                      Change
-                    </button>
-                  </div>
-                  <div className="connect-container--body">
-                    <h1>{context.account && formatAccount(context.account)}</h1>
-                  </div>
-                  <div className="connect-container--footer">
-                    <a className="myLink" onClick={handleCopyTextClick}>
-                      {isCopied ? "Copied" : " Copy address"}
-                    </a>
-                    <a
-                      href={`https://rinkeby.etherscan.io/address/${context.account}`}
-                      target="#blank"
-                      className="myLink"
-                    >
-                      View on explorer
-                    </a>
-                  </div>
-                </section>
-              )}
             </React.Fragment>
           ))}
 
+        {/* Wallet connected  */}
+
+        {showAllAccounts && context.active && (
+          <section className="connect-container">
+            <div className="connect-container--header">
+              <p>Connected with {connectedAccounts[0]}</p>
+              <button className="btn" onClick={handleWalletChange}>
+                Change
+              </button>
+            </div>
+            <div className="connect-container--body">
+              <h1>{context.account && formatAccount(context.account)}</h1>
+            </div>
+            <div className="connect-container--footer">
+              <button className="clearBtn" onClick={handleCopyTextClick}>
+                {isCopied ? "Copied" : " Copy address"}
+              </button>
+              <a
+                href={`https://rinkeby.etherscan.io/address/${context.account}`}
+                target="#blank"
+                className="myLink"
+              >
+                View on explorer
+              </a>
+            </div>
+          </section>
+        )}
+
         {/* Wallet Not Connected  */}
 
-        {(currentWallet.length === 0 || currentWallet.includes("all")) &&
+        {(!showAllAccounts || (!context.active && !loading && !walletError)) &&
           dataSrc.map((d) => (
             <React.Fragment key={d.name}>
-              {/* {walletError && (
-                <button className="card" disabled>
-                  <h3 style={{ color: "red" }}>{walletError}</h3>
-                </button>
-              )} */}
               <button
                 className="card"
                 onClick={() => {
@@ -216,14 +234,14 @@ export default function App() {
                   if (!context.active && !context.error) {
                     setLoading(true);
                   }
-                  setCurrentWallet((currentWallet) => [
-                    ...currentWallet,
+                  setCurrentWalletArr((currentWalletArr) => [
+                    ...currentWalletArr,
                     d.name,
                   ]);
                 }}
               >
                 <div className="align-center">
-                  {currentWallet.includes(d.name) ? connectedDot : null}
+                  {connectedAccounts.has(d.name) ? connectedDot : null}
                   <h3>{d.name}</h3>
                 </div>
                 <img src={d.imgSrc} width="24px" height="24px" alt={d.name} />
