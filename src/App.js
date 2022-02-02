@@ -199,7 +199,7 @@ export default function App() {
         {showAllAccounts && context.active && (
           <section className="connect-container">
             <div className="connect-container--header">
-              <p>Connected with {connectedAccounts[0]}</p>
+              <p>Connected with {[...connectedAccounts][0]}</p>
               <button className="btn" onClick={handleWalletChange}>
                 Change
               </button>

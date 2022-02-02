@@ -15,9 +15,10 @@
 
 body {
   font-family: sans-serif;
-  background-color: var(--bodyBg);
+
   padding-top: 10px;
   text-align: center;
+  background-color: #e5e5f7;
 }
 
 .cta-buttonContainer {
