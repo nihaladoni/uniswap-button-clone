@@ -83,9 +83,53 @@ export const closeButtonSVg = (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    tabIndex="1"
   >
     <line x1="18" y1="6" x2="6" y2="18"></line>
     <line x1="6" y1="6" x2="18" y2="18"></line>
   </svg>
 );
+
+export const chainsMetadata = {
+  1: {
+    tokenName: "Ethereum Mainnet",
+    chainId: 1,
+    tokenSymbol: "ETH",
+    explorerUrl: "https://etherscan.io/address",
+  },
+  3: {
+    tokenName: "Ropsten Testnet",
+    chainId: 3,
+    tokenSymbol: "ETH",
+    explorerUrl: "https://ropsten.etherscan.io/address",
+  },
+  4: {
+    tokenName: "Rinkeby Testnet",
+    chainId: 4,
+    tokenSymbol: "ETH",
+    explorerUrl: "https://rinkeby.etherscan.io/address",
+  },
+  5: {
+    tokenName: "Goerli Testnet",
+    chainId: 5,
+    tokenSymbol: "ETH",
+    explorerUrl: "https://goerli.etherscan.io/address",
+  },
+  42: {
+    tokenName: "Kovan Testnet",
+    chainId: 42,
+    tokenSymbol: "ETH",
+    explorerUrl: "https://kovan.etherscan.io/address",
+  },
+  97: {
+    tokenName: "Binance Smart Chain Testnet",
+    chainId: 97,
+    tokenSymbol: "BNB",
+    explorerUrl: "https://testnet.bscscan.com/address",
+  },
+
+  5777: {
+    tokenName: "Ganache",
+    chainId: 5777,
+    tokenSymbol: "GAN",
+  },
+};

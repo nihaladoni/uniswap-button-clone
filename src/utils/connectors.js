@@ -4,6 +4,8 @@ import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 
 const infuraId = process.env.INFURA_ID;
 
+export const supportedChainIds = [1, 3, 4, 5, 42, 97];
+
 const RPC_URLS = {
   1: `https://mainnet.infura.io/v3/${infuraId}`,
   4: `https://rinkeby.infura.io/v3/${infuraId}`,
@@ -11,7 +13,7 @@ const RPC_URLS = {
 
 // Metamask
 export const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42],
+  supportedChainIds,
 });
 
 // WalletConect

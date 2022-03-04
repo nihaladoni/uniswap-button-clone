@@ -10,6 +10,7 @@ import {
   walletlink,
 } from "./utils/connectors";
 import {
+  chainsMetadata,
   connectedDot,
   copyTextToClipboard,
   filterList,
@@ -20,9 +21,12 @@ import {
   svgLoader,
 } from "./utils/helpers";
 import Backbutton from "./components/Backbutton";
+import { useEffect } from "react/cjs/react.development";
+import useChainId from "./utils/useChainId";
 
 export default function App() {
   const context = useWeb3React();
+  const myChainId = useChainId();
 
   const [walletError, setWalletError] = useState("");
   const [currentWalletArr, setCurrentWalletArr] = useState([]);
@@ -36,9 +40,10 @@ export default function App() {
 
   //  Wallet conncection handlers
 
-  const handleMetamask = async () => {
+  const handleMetamaskConnect = async () => {
     try {
       await context.activate(injected, undefined, true);
+      localStorage.setItem("isWalletConnected", true);
       setConnectedAccounts((prev) => new Set(...prev).add("Metamask"));
     } catch (error) {
       setWalletError(getErrorMessage(error));
@@ -76,7 +81,7 @@ export default function App() {
     {
       name: "Metamask",
       imgSrc: "https://app.uniswap.org/static/media/metamask.02e3ec27.png",
-      onClick: handleMetamask,
+      onClick: handleMetamaskConnect,
     },
     {
       name: "WalletConnect",
@@ -127,14 +132,34 @@ export default function App() {
     (async () => {
       const balanceInWei = await getBalanceFromAccount(context.account);
       const balanceInEth = await getBalanceInOtherUnit(balanceInWei);
-      setWalletBalance(`${balanceInEth} ETH`);
+      setWalletBalance(balanceInEth);
     })();
   }
+
+  const handleWalletDisconnect = async () => {
+    try {
+      await context.deactivate();
+      localStorage.setItem("isWalletConnected", false);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage?.getItem("isWalletConnected") === "true") {
+      handleMetamaskConnect();
+    }
+  }, []);
 
   return (
     <div>
       <div className="cta-buttonContainer">
-        {context.active && <span> {walletBalance}</span>}
+        {context.active && (
+          <span>
+            {Number(walletBalance).toFixed(4)} &nbsp;
+            {chainsMetadata[myChainId].tokenSymbol}
+          </span>
+        )}
         <button
           className={context.active ? "cta-button selected" : "cta-button"}
           onClick={openModal}
@@ -151,7 +176,10 @@ export default function App() {
             showAllAccounts ? (
               "Account"
             ) : (
-              <Backbutton onClick={handleBackButtonClick} />
+              <>
+                {/* <button onClick={handleWalletDisconnect}>Disconnect</button> */}
+                <Backbutton onClick={handleBackButtonClick} />
+              </>
             )
           ) : (
             "Connect Wallet"
@@ -208,11 +236,11 @@ export default function App() {
               <h1>{context.account && formatAccount(context.account)}</h1>
             </div>
             <div className="connect-container--footer">
-              <button className="clearBtn" onClick={handleCopyTextClick}>
+              <button as="a" className="clearBtn" onClick={handleCopyTextClick}>
                 {isCopied ? "Copied" : " Copy address"}
               </button>
               <a
-                href={`https://rinkeby.etherscan.io/address/${context.account}`}
+                href={`${chainsMetadata[myChainId].explorerUrl}/${context.account}`}
                 target="#blank"
                 className="myLink"
               >
