@@ -7,22 +7,32 @@
   "dependencies": {
     "@web3-react/core": "6.1.9",
     "@web3-react/injected-connector": "6.0.7",
-    "@web3-react/walletconnect-connector": "6.2.8",
-    "@web3-react/walletlink-connector": "6.2.8",
+    "@web3-react/walletconnect-connector": "^6.2.13",
+    "@web3-react/walletlink-connector": "^6.2.13",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-modal": "3.14.4",
-    "react-scripts": "4.0.0",
+    "react-scripts": "^5.0.0",
     "styled-components": "5.3.3",
     "web3": "1.7.0"
   },
   "devDependencies": {
-    "@babel/runtime": "7.13.8"
+    "@babel/runtime": "^7.17.2",
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "browserslist": [
