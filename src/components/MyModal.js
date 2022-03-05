@@ -12,7 +12,7 @@ const MyModal = (props) => {
       localStorage.setItem("isWalletConnected", false);
       window.location.reload();
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
     }
   };
 

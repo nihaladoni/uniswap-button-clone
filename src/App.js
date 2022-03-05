@@ -141,7 +141,7 @@ export default function App() {
       await context.deactivate();
       localStorage.setItem("isWalletConnected", false);
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
     }
   };
 
