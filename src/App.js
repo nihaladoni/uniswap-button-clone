@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 
 import MyModal from "./components/MyModal";
@@ -21,7 +21,6 @@ import {
   svgLoader,
 } from "./utils/helpers";
 import Backbutton from "./components/Backbutton";
-import { useEffect } from "react/cjs/react.development";
 import useChainId from "./utils/useChainId";
 
 export default function App() {
