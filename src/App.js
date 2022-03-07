@@ -135,15 +135,6 @@ export default function App() {
     })();
   }
 
-  const handleWalletDisconnect = async () => {
-    try {
-      await context.deactivate();
-      localStorage.setItem("isWalletConnected", false);
-    } catch (ex) {
-      console.error(ex);
-    }
-  };
-
   useEffect(() => {
     if (localStorage?.getItem("isWalletConnected") === "true") {
       handleMetamaskConnect();
@@ -176,7 +167,6 @@ export default function App() {
               "Account"
             ) : (
               <>
-                {/* <button onClick={handleWalletDisconnect}>Disconnect</button> */}
                 <Backbutton onClick={handleBackButtonClick} />
               </>
             )

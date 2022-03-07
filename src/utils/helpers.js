@@ -16,7 +16,7 @@ export const getErrorMessage = (errorObj) => {
       break;
     case errorObj.code === -32002:
       errorMessage =
-        "A wallet request is already running. Please check window panes";
+        "A wallet request is already running. Please click on metamask extension and login.";
       break;
 
     default:
