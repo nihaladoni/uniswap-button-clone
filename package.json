@@ -14,7 +14,7 @@
     "react-modal": "3.14.4",
     "react-scripts": "^5.0.0",
     "styled-components": "5.3.3",
-    "web3": "1.7.0"
+    "web3": "1.8.1"
   },
   "devDependencies": {
     "@babel/runtime": "^7.17.2",
