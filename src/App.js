@@ -85,7 +85,7 @@ export default function App() {
     {
       name: "WalletConnect",
       imgSrc:
-        "https://app.uniswap.org/static/media/walletConnectIcon.304e3277.svg",
+        "https://raw.githubusercontent.com/web3widgets/icons/main/provider/walletConnect.svg",
       onClick: handleWalletConnect,
     },
     {
