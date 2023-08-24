@@ -79,7 +79,7 @@ export default function App() {
   const dataSrc = [
     {
       name: "Metamask",
-      imgSrc: "https://app.uniswap.org/static/media/metamask.02e3ec27.png",
+      imgSrc: "https://raw.githubusercontent.com/MetaMask/brand-resources/master/SVG/SVG_MetaMask_Icon_Color.svg",
       onClick: handleMetamaskConnect,
     },
     {
